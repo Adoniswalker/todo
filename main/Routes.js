@@ -4,7 +4,7 @@ const express = require('express');
 const todoRoutes = express.Router();
 const todo = require('./todo');
 
-todoRoutes.get('/all',function (req, res, next) {
+todoRoutes.get('/todo',function (req, res, next) {
     todo.find({}, function (err, todos) {
         console.log("Not working")
         if(err){
@@ -14,7 +14,7 @@ todoRoutes.get('/all',function (req, res, next) {
     })
 });
 
-todoRoutes.route('/add').post(function (req, res) {
+todoRoutes.route('/todo').post(function (req, res) {
     todo.create(
         {
             name: req.body.name,
@@ -31,7 +31,7 @@ todoRoutes.route('/add').post(function (req, res) {
     )
 });
 
-todoRoutes.route("/update/:id").post(function (req, res, next) {
+todoRoutes.route("/todo/:id").put(function (req, res, next) {
     let id = req.params.id;
     todo.findById(id, function (error, todo) {
         if(error){
@@ -54,7 +54,7 @@ todoRoutes.route("/update/:id").post(function (req, res, next) {
     })
 });
 
-todoRoutes.route('/delete/:id').get(function (req, res, next) {
+todoRoutes.route('/todo/:id').delete(function (req, res, next) {
     let id = req.params.id;
     todo.findByIdAndRemove(id, function (error, todo) {
         if (error){
