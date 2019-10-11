@@ -1,17 +1,17 @@
 /* jslint node: true */
 'use strict';
 
-var express = require('express');
-var morgan = require('morgan');
-var path = require('path');
-var app = express();
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+const express = require('express');
+const morgan = require('morgan');
+const path = require('path');
+const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 // Require configuration file defined in app/Config.js
-var config = require('./main/Config');
+const config = require('./main/Config');
 // Connect to database
-mongoose.connect(config.DB);
+mongoose.connect(config.DB, { useNewUrlParser: true, useUnifiedTopology: true });
 // Sends static files  from the public path directory
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -19,11 +19,11 @@ app.use(express.static(path.join(__dirname, '/public')));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-var port = config.APP_PORT || 4000;
+const port = config.APP_PORT || 4000;
 app.listen(port); // Listen on port defined in config file
 
 console.log('App listening on port ' + port);
-var todoRoutes = require('./main/Routes');
+const todoRoutes = require('./main/Routes');
 //  Use routes defined in Route.js and prefix with todo
 app.use('/api', todoRoutes);
 app.use(function (req, res, next) {
@@ -36,7 +36,8 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next()
 });
+
 // Server index.html page when request to the root is made
 app.get('/', function (req, res, next) {
-    res.sendfile('./public/index.html')
+    res.sendfile('./public/html/index.html')
 });

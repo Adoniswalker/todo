@@ -41,7 +41,7 @@ todoRoutes.route("/update/:id").post(function (req, res, next) {
             todo.done = req.body.done;
             todo.timeToWork= req.body.timeToWork;
 
-            todo.save({
+            todo.save(
                 function (error, todo){
                     if(error){
                         res.status(400).send("Unable to save")
@@ -49,7 +49,7 @@ todoRoutes.route("/update/:id").post(function (req, res, next) {
                         res.status(200).json(todo)
                     }
                 }
-            })
+            )
         }
     })
 });
