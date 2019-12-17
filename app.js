@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 // Require configuration file defined in app/Config.js
 const config = require('./main/Config');
 // Connect to database
-mongoose.connect(config.DB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(config.DB, {useNewUrlParser: true, useUnifiedTopology: true});
 // Sends static files  from the public path directory
 app.use(express.static(path.join(__dirname, '/public')));
 

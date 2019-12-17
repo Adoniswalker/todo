@@ -3,6 +3,7 @@
 const express = require('express');
 const todoRoutes = express.Router();
 const todo = require('./todo');
+const {check, validationResult} = require('express-validator');
 
 todoRoutes.get('/todo',function (req, res, next) {
     todo.find({}, function (err, todos) {
@@ -14,7 +15,16 @@ todoRoutes.get('/todo',function (req, res, next) {
     })
 });
 
-todoRoutes.route('/todo').post(function (req, res) {
+todoRoutes.post('/todo',
+    // [
+    // check("name").not().isEmpty().trim().escape(),
+    // check("timeToWork").isDate
+// ],
+    function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({errors: errors.array()});
+    }
     todo.create(
         {
             name: req.body.name,
@@ -23,7 +33,7 @@ todoRoutes.route('/todo').post(function (req, res) {
         },
         function (error, todo) {
             if(error){
-                res.status(400).send("Unable to create the tod list")
+                res.status(400).send("Unable to create the tod list " + error)
             }
             res.status(200).json(todo)
 
